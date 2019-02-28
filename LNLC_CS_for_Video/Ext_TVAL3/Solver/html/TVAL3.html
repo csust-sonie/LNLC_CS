@@ -1,0 +1,112 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>TVAL3</title><meta name="generator" content="MATLAB 7.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-06-07"><meta name="DC.source" content="TVAL3.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">function</span> [U,out] = TVAL3(A,b,p,q,opts)
+<span class="comment">% Accordingly choose the code based on the model selected by the user.</span>
+<span class="comment">%</span>
+<span class="comment">% 1) TV model:        min sum ||D_i u||.</span>
+<span class="comment">%                        s.t. Au = b</span>
+<span class="comment">% 2) TV/L2 model:     min sum ||D_i u|| + mu/2||Au-b||_2^2</span>
+<span class="comment">%</span>
+<span class="comment">% Please use the default one if the user doesn't have a specific model to</span>
+<span class="comment">% solver.</span>
+<span class="comment">%</span>
+<span class="comment">% Written by: Chengbo Li</span>
+<span class="comment">% Advisor: Prof. Yin Zhang and Wotao Yin</span>
+<span class="comment">% Computational and Applied Mathematics department, Rice University</span>
+<span class="comment">% May. 15, 2009</span>
+
+<span class="keyword">if</span> ~isfield(opts,<span class="string">'TVL2'</span>)
+    opts.TVL2 = false;
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> opts.TVL2
+     [U, out] = ftvcs_al_TVL2p(A,b,p,q,opts);
+<span class="keyword">else</span>
+    [U, out] = ftvcs_alp(A,b,p,q,opts);
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">Error using TVAL3 (line 16)
+Not enough input arguments.
+</pre><p class="footer"><br>
+      Published with MATLAB&reg; 7.14<br></p></div><!--
+##### SOURCE BEGIN #####
+function [U,out] = TVAL3(A,b,p,q,opts)
+% Accordingly choose the code based on the model selected by the user.
+%
+% 1) TV model:        min sum ||D_i u||. 
+%                        s.t. Au = b
+% 2) TV/L2 model:     min sum ||D_i u|| + mu/2||Au-b||_2^2 
+%
+% Please use the default one if the user doesn't have a specific model to
+% solver.
+%
+% Written by: Chengbo Li
+% Advisor: Prof. Yin Zhang and Wotao Yin
+% Computational and Applied Mathematics department, Rice University
+% May. 15, 2009
+
+if ~isfield(opts,'TVL2')
+    opts.TVL2 = false;
+end
+
+if opts.TVL2
+     [U, out] = ftvcs_al_TVL2p(A,b,p,q,opts);
+else 
+    [U, out] = ftvcs_alp(A,b,p,q,opts);
+end
+##### SOURCE END #####
+--></body></html>
